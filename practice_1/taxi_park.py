@@ -1,4 +1,5 @@
 from car import Car 
+from driver import Driver 
 
 class TaxiPark:
 
@@ -7,20 +8,17 @@ class TaxiPark:
         self.__cars = [] 
 
     def __repr__(self):
-        # return f'Авто таксопарка: {self.__cars}'
-        return f'{self.__dict__}'
+        return f'Водители: {self.drivers}\nАвтомобили: {self.cars}'
 
-    def add_car(car: Car):
-        pass
+    def add_car(self, car: Car):
+        self.cars.append(car)
+        print('Авто успешно добавлено в таксопарк!')
     
-    def add_driver():
-        pass 
+    def add_driver(self,  driver: Driver):
+        self.drivers.append({'name': driver.name, 'surname': driver.surname})
     
-    def print_info():
-        pass 
-    
-    def fire_driver():
-        pass 
+    def fire_driver(self, id: Driver):
+        self.drivers.pop(id)
     
     @property
     def drivers(self):
@@ -31,5 +29,8 @@ class TaxiPark:
         return self.__cars 
 
 taxi_park = TaxiPark()
+driver = Driver('Oleg', 'Zagudaev')
+taxi_park.add_driver(driver)
 
-print(taxi_park.drivers)
+print(taxi_park)
+print(driver)
