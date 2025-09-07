@@ -8,14 +8,15 @@ class TaxiPark:
         self.__cars = [] 
 
     def __repr__(self):
-        return f'Водители: {self.drivers}\nАвтомобили: {self.cars}'
+        return f'Информация о таксопарке:\n  Водители: {self.drivers}\n  Автомобили: {self.cars}'
 
     def add_car(self, car: Car):
         self.cars.append(car)
-        print('Авто успешно добавлено в таксопарк!')
+        print(f'Авто {car} успешно добавлено в таксопарк!')
     
     def add_driver(self,  driver: Driver):
         self.drivers.append({'name': driver.name, 'surname': driver.surname})
+        print(f'Водитель {driver} успешно добавлен в таксопарк!')
     
     def fire_driver(self, id: Driver):
         self.drivers.pop(id)
@@ -28,9 +29,3 @@ class TaxiPark:
     def cars(self):
         return self.__cars 
 
-taxi_park = TaxiPark()
-driver = Driver('Oleg', 'Zagudaev')
-taxi_park.add_driver(driver)
-
-print(taxi_park)
-print(driver)
