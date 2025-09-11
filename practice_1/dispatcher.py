@@ -28,6 +28,10 @@ class Dispatcher:
     def assign_order(self, order: Order, driver: Driver):
         driver.current_order = order 
         print(f'Водителю {driver} назначен заказ номер {order.id}')   
+     
+    @property
+    def id(self):
+        return self.__id 
        
     @property
     def name(self):
