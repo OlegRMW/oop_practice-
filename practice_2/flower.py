@@ -1,0 +1,35 @@
+from plant import Plant 
+
+class Flower(Plant):
+    def __init__(self, height_rate, time, area, water_rate):
+        self.__height_rate = height_rate
+        self.__time = time
+        self.__area = area
+        self.__water_rate = water_rate
+
+    @property
+    def height_rate(self):
+        return self.__height_rate
+
+    @property
+    def time(self):
+        return self.__time
+
+    @property
+    def area(self):
+        return self.__area
+
+    @property
+    def water_rate(self):
+        return self.__water_rate
+
+    def calculate_growth(self):
+        return self.__height_rate * self.__time * 0.5
+
+    def calculate_water_needs(self):
+        return self.__area * self.__water_rate * 0.3
+    
+flower = Flower(1.5, 4, 5, 2)
+print("\nСкорость роста цветка:", flower.height_rate)
+print("Рост:", flower.calculate_growth())
+print("Потребность в воде:", flower.calculate_water_needs())

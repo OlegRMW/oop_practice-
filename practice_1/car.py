@@ -14,9 +14,13 @@ class Car:
         self.driver = driver 
         print(f'Теперь {self.driver} водитель авто {self.reg}')
     
-    def remove_driver(self, driver: Driver):
-        self.driver = '' 
-        print(f'Водитель {self.driver} снят с авто {self.reg}')
+    def remove_driver(self):
+        if self.driver != '':
+            old_driver = self.driver
+            self.driver = '' 
+            print(f'Водитель {old_driver} снят с авто {self.reg}')
+        else:
+            print('Авто без водителя, сначала добавьте водителя')    
         
     def increase_mileage(self, value):
         self.mileage += value 
