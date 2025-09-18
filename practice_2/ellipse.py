@@ -1,7 +1,7 @@
 import math 
 
 
-#Переопределение метода __call__ при создании экземпляра 
+# Переопределение метода __call__ при создании экземпляра 
 class MyMeta(type):
     def __call__(cls, *args, **kwargs):
         arr = cls.__new__(cls, *args, **kwargs)
