@@ -28,3 +28,8 @@ class Shrub(Plant):
 
     def calculate_water_needs(self):
         return self.__area * self.__water_rate * 0.6
+    
+shrub = Shrub(1, 6, 8, 2)
+print("\nСкорость роста кустарника:", shrub.height_rate)
+print("Рост:", shrub.calculate_growth())
+print("Потребность в воде:", shrub.calculate_water_needs())

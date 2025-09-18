@@ -28,3 +28,8 @@ class Tree(Plant):
 
     def calculate_water_needs(self):
         return self.__area * self.__water_rate
+    
+tree = Tree(2, 5, 10, 3)
+print("Скорость роста дерева:", tree.height_rate)
+print("Рост:", tree.calculate_growth())
+print("Потребность в воде:", tree.calculate_water_needs())

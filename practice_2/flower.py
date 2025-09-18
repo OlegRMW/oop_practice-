@@ -28,3 +28,8 @@ class Flower(Plant):
 
     def calculate_water_needs(self):
         return self.__area * self.__water_rate * 0.3
+    
+flower = Flower(1.5, 4, 5, 2)
+print("\nСкорость роста цветка:", flower.height_rate)
+print("Рост:", flower.calculate_growth())
+print("Потребность в воде:", flower.calculate_water_needs())
