@@ -14,7 +14,6 @@ class Ellipse(metaclass=MyMeta):
     def __init__(self, major_axis: int):
         self.__major_axis = major_axis
         self.__minor_axis = 3
-
     def __repr__(self):
         return f'{self.__major_axis}'
     
@@ -29,3 +28,6 @@ class Ellipse(metaclass=MyMeta):
         major_axis = int(input('Введите длину большей полуоси: \a'))
         print(f'Создан экземпляр класса {cls}')
         return [super().__new__(cls), major_axis]
+
+
+obj = Ellipse()
