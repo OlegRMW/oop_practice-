@@ -6,7 +6,6 @@ class Subscription:
         self.__plan = plan
         self.__start_date = start_date
 
-    # геттеры
     def get_user(self):
         return self.__user
 
@@ -16,17 +15,15 @@ class Subscription:
     def get_start_date(self):
         return self.__start_date
 
-    # метод вычисления возраста подписки в годах
     def subscription_age(self) -> int:
         today = date.today()
         age = today.year - self.__start_date.year
-        # корректируем, если месяц/день еще не наступил в текущем году
+        # если месяц или день еще не наступил
         if (today.month, today.day) < (self.__start_date.month, self.__start_date.day):
             age -= 1
         return age
 
 
-# Пример использования
 sub1 = Subscription("Иванов И.", "Premium", date(2021, 3, 1))
 sub2 = Subscription("Петров П.", "Basic", date(2022, 7, 15))
 
