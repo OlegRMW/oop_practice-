@@ -52,19 +52,16 @@ class BinSearchStructure:
             self._print_tree_helper(node.left_sub, level + 1)
 
 def main():
-    # Создаем экземпляр класса BinSearchStructure
+    
     tree = BinSearchStructure()
     
-    # Генерируем 22 случайных числа от 2 до 42
     random_numbers = [random.randint(2, 42) for _ in range(22)]
     print("Случайные числа для вставки:", random_numbers)
     print()
     
-    # Вставляем случайные числа в дерево
     for number in random_numbers:
         tree.insert_struct(number)
     
-    # Выполняем поиск некоторых элементов
     search_values = [10, 15, 20, 25, 30, 35, 40]
     
     print("Результаты поиска:")
@@ -75,7 +72,6 @@ def main():
         else:
             print(f"Значение {value} не найдено в дереве")
     
-    # Дополнительно: поиск нескольких случайных чисел из вставленных
     print("\nПоиск случайных чисел из вставленных:")
     sample_numbers = random.sample(random_numbers, min(5, len(random_numbers)))
     for value in sample_numbers:
