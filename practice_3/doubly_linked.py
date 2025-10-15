@@ -34,7 +34,7 @@ class DoublyLinkedList:
     def insert(self, value):
         new_node = Node(value)
         
-        # Если список пуст
+        # Втсавка при пустом списке 
         if self._first_item is None:
             self._first_item = new_node
             self._last_item = new_node
@@ -54,7 +54,7 @@ class DoublyLinkedList:
             new_node._link_f = max_node
             max_node._link_b = new_node
             self._first_item = new_node
-        else:  # max_node не первый элемент
+        else:  # max_node - не первый элемент
             prev_node = max_node._link_b
             new_node._link_f = max_node
             new_node._link_b = prev_node
@@ -86,8 +86,6 @@ class DoublyLinkedList:
             
             current = next_node
 
-
-# Создание экземпляра класса DoublyLinkedList
 dll = DoublyLinkedList()
 
 # Вставка узлов: 5, 15, 10
@@ -95,17 +93,14 @@ dll.insert(5)
 dll.insert(15)
 dll.insert(10)
 
-print("Initial Doubly Linked List:")
 dll.display()
 
 # Вставка 12 (перед 15 - максимальным)
 dll.insert(12)
 
-print("After inserting 12 before max:")
 dll.display()
 
 # Удаление всех вхождений 10
 dll.delete(10)
 
-print("After deleting all 10s:")
 dll.display()
