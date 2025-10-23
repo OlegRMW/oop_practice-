@@ -50,8 +50,8 @@ class NinjaClash:
         print(f'Победил {self.__victory}') 
             
     
-ninja_1 = Ninja('Хуйсуньвынь')
-ninja_2 = Ninja('Выньсуньхуй')
+ninja_1 = Ninja('Ninja1')
+ninja_2 = Ninja('Ninja2')
 
 clh = NinjaClash(ninja_1, ninja_2)
 
