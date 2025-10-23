@@ -3,7 +3,7 @@ from wallboard import WallBoard
 class Room:
     
     def __init__(self, height, width, length) -> None:
-        self.__wall_boards = []
+        self.__wall_boards: list[WallBoard] = []
         self.__height = height
         self.__width = width
         self.__length = length
