@@ -1,3 +1,6 @@
+from hull_seal import HullSeal
+from sonar_system import SonarSystem
+
 class Submarine:
     def __init__(self, depth_rating=500, ballast_type="water"):
         self._depth_rating = depth_rating
@@ -23,10 +26,10 @@ class Submarine:
         self._ballast_type = value
     
     def submerge(self):
-        return f"Субмарина погружается на {self._depth_rating} метров, используя {self._ballast_type}"
+        return f"Submarine submerging to {self._depth_rating} meters using {self._ballast_type} ballast"
     
     def navigate_underwater(self):
-        return "Навигация под водой, ипользуя гидролокатор и перископ"
+        return "Navigating underwater with sonar and periscope"
 
 
 class Hovercraft:
@@ -63,14 +66,13 @@ class Hovercraft:
         self._terrain_type = value
     
     def inflate_skirt(self):
-        return f"Надувание {self._skirt_material} юбки для {self._terrain_type} местности"
+        return f"Inflating {self._skirt_material} skirt for {self._terrain_type} terrain"
     
     def navigate_underwater(self):
-        return "Судно на воздушной подушке не может двигаться под водой - сдуйте юбку!"
+        return "Hovercraft cannot navigate underwater - deflating skirt!"
     
     def deflate(self):
-        return "Сдувание юбки и подготовка к путешествию по суше"
-
+        return "Deflating skirt and preparing for land travel"
 
 class AmphibiousVehicle:
     def __init__(self, wheel_type="all-terrain", propeller_count=2, land_speed=80, water_speed=20):
@@ -96,7 +98,7 @@ class AmphibiousVehicle:
         if value >= 0:
             self._propeller_count = value
         else:
-            raise ValueError("Количество пропеллеров не может быть отрицательным!")
+            raise ValueError("Propeller count cannot be negative")
     
     @property
     def land_speed(self):
@@ -107,7 +109,7 @@ class AmphibiousVehicle:
         if value >= 0:
             self._land_speed = value
         else:
-            raise ValueError("Скорость не может быть отрицательна!")
+            raise ValueError("Speed cannot be negative")
     
     @property
     def water_speed(self):
@@ -118,72 +120,50 @@ class AmphibiousVehicle:
         if value >= 0:
             self._water_speed = value
         else:
-            raise ValueError("Скорость не может быть отрицательна!")
+            raise ValueError("Speed cannot be negative")
     
     def switch_mode(self):
-        return f"Переключение режима передвижения..."
+        print("Режим переключён: вода → суша")
 
 
-class AmphibiousCraft(Submarine, Hovercraft, AmphibiousVehicle):
-    def __init__(self, depth_rating=300, ballast_type="water", 
+
+class AmphibiousCraft(HullSeal, SonarSystem, 
+                       Submarine, Hovercraft, AmphibiousVehicle):
+
+    def __init__(self, depth_rating=300, ballast_type="water",
                  skirt_material="neoprene", engine_power=1500, terrain_type="amphibious",
-                 wheel_type="amphibious", propeller_count=4, land_speed=60, water_speed=25):
+                 wheel_type="all-terrain", propeller_count=4, land_speed=60, water_speed=25):
 
+        HullSeal.__init__(self)
         Submarine.__init__(self, depth_rating, ballast_type)
         Hovercraft.__init__(self, skirt_material, engine_power, terrain_type)
         AmphibiousVehicle.__init__(self, wheel_type, propeller_count, land_speed, water_speed)
-    
-    def traverse(self):
+
+    def run(self):
         actions = []
+
+        # как в примере вывода:
+        actions.append(self.seal_hull())
+        actions.append(self.check_pressure())
+        actions.append(self.unseal_hull())
+
+        actions.append(self.scan_area())
+        actions.append(self.detect_object())
+        actions.append(self.map_seabed())
+
         actions.append(self.submerge())
         actions.append(self.inflate_skirt())
         actions.append(self.switch_mode())
         actions.append(self.navigate_underwater())
+
+        actions.append(
+            f"Depth rating: {self.depth_rating} m, "
+            f"Skirt material: {self.skirt_material}, "
+            f"Wheel type: {self.wheel_type}"
+        )
+
         return actions
-    
-    def get_status(self):
-        return {
-            'depth_rating': self.depth_rating,
-            'ballast_type': self.ballast_type,
-            'skirt_material': self.skirt_material,
-            'engine_power': self.engine_power,
-            'terrain_type': self.terrain_type,
-            'wheel_type': self.wheel_type,
-            'propeller_count': self.propeller_count,
-            'land_speed': self.land_speed,
-            'water_speed': self.water_speed
-        }
 
-
-if __name__ == "__main__":
-    
-    craft = AmphibiousCraft()
-    
-    print("=== АМФИБИЙНЫЙ ТРАНСПОРТ ===")
-    print("\nТекущее состояние:")
-    status = craft.get_status()
-    for key, value in status.items():
-        print(f"{key}: {value}")
-    
-    print("\n=== ТЕСТИРОВАНИЕ МЕТОДОВ ===")
-    
-    print("\n1. Погружение:", craft.submerge())
-    print("2. Надувание юбки:", craft.inflate_skirt())
-    print("3. Переключение режима:", craft.switch_mode())
-    print("4. Подводная навигация:", craft.navigate_underwater())
-    print("5. Сдувание юбки:", craft.deflate())
-    
-    print("\n=== ПОЛНАЯ ПОСЛЕДОВАТЕЛЬНОСТЬ TRAVERSE ===")
-    actions = craft.traverse()
-    for i, action in enumerate(actions, 1):
-        print(f"{i}. {action}")
-    
-    print("\n=== ИЗМЕНЕНИЕ СВОЙСТВ ===")
-
-    craft.depth_rating = 400
-    craft.engine_power = 2000
-    craft.land_speed = 70
-    
-    print(f"Новый рейтинг глубины: {craft.depth_rating}")
-    print(f"Новая мощность двигателя: {craft.engine_power}")
-    print(f"Новая скорость по земле: {craft.land_speed}")
+craft = AmphibiousCraft()
+for line in craft.run():
+    print(line)

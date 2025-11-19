@@ -25,11 +25,9 @@ class Smartphone(Device):
         super().charge(percent + extra)
 
 
-# --- Основная часть программы ---
 device = Device("Lenovo", "Tab M10", 45)
 smartphone = Smartphone("Samsung", "Galaxy S23", 30)
 
-# Вызов методов
 device.charge(10)
 smartphone.charge(10)
 

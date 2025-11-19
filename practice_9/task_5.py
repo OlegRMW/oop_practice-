@@ -2,7 +2,7 @@ class Vehicle:
     """Базовый класс для всех транспортных средств"""
     def __init__(self, name="Amphibious Craft", **kwargs):
         print("Start Vehicle.__init__")
-        super().__init__(**kwargs)
+        super().__init__(**kwargs)         # чтобы вызывался следующий по цепочке наследования конструктор
         self._name = name
         print("End Vehicle.__init__")
     
@@ -21,7 +21,7 @@ class Vehicle:
 class Submarine(Vehicle):
     def __init__(self, depth_rating=500, ballast_type="water", **kwargs):
         print("Start Submarine.__init__")
-        super().__init__(**kwargs)
+        super().__init__(**kwargs)      # чтобы вызывался следующий по цепочке наследования конструктор
         self._depth_rating = depth_rating
         self._ballast_type = ballast_type
         print("End Submarine.__init__")
@@ -55,7 +55,7 @@ class Submarine(Vehicle):
 class Hovercraft(Vehicle):
     def __init__(self, skirt_material="rubber", engine_power=1000, terrain_type="mixed", **kwargs):
         print("Start Hovercraft.__init__")
-        super().__init__(**kwargs)
+        super().__init__(**kwargs)      # чтобы вызывался следующий по цепочке наследования конструктор
         self._skirt_material = skirt_material
         self._engine_power = engine_power
         self._terrain_type = terrain_type
@@ -101,7 +101,7 @@ class Hovercraft(Vehicle):
 class AmphibiousVehicle(Vehicle):
     def __init__(self, wheel_type="all-terrain", propeller_count=2, land_speed=80, water_speed=20, **kwargs):
         print("Start AmphibiousVehicle.__init__")
-        super().__init__(**kwargs)
+        super().__init__(**kwargs)   # чтобы вызывался следующий по цепочке наследования конструктор 
         self._wheel_type = wheel_type
         self._propeller_count = propeller_count
         self._land_speed = land_speed
@@ -245,3 +245,4 @@ if __name__ == "__main__":
     print(f"Новый рейтинг глубины: {car.depth_rating}")
     print(f"Новая мощность двигателя: {car.engine_power}")
     print(f"Новая скорость по земле: {car.land_speed}")
+    print(Car.__mro__)
