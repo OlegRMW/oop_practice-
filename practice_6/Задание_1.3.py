@@ -1,31 +1,36 @@
 from accessify import private
 
 class Spaceship3:
-    @private
-    def __max_speed(): return 30000
-    @private
-    def __capacity(): return 5
-    @private
-    def __fuel_tank(): return 1000
-    @private
-    def __engine_oil_capacity(): return 10
-    @private
-    def __luggage_spaces(): return 10
+    # @private
+    # def __max_speed(): return 30000
+    # @private
+    # def __capacity(): return 5
+    # @private
+    # def __fuel_tank(): return 1000
+    # @private
+    # def __engine_oil_capacity(): return 10
+    # @private
+    # def __luggage_spaces(): return 10
 
     def __init__(self):
         self.__speed = 0
         self.__fuel = 0
         self.__passengers = []
         self.__luggage = []
+        self.__max_speed = 30000
+        self.__capacity = 5
+        self.__fuel_tank = 1000
+        self.__engine_oil_capacity = 10
+        self.__luggage_spaces = 10
 
     @private
     def check_speed(self, value):
-        if not 0 <= value <= self.__max_speed():
+        if not 0 <= value <= self.__max_speed:
             raise ValueError("Недопустимая скорость!")
 
     @private
     def check_fuel(self, value):
-        if not 0 <= value <= self.__fuel_tank():
+        if not 0 <= value <= self.__fuel_tank:
             raise ValueError("Недопустимый уровень топлива!")
 
     def get_speed(self): return self.__speed

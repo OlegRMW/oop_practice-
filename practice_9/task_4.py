@@ -15,7 +15,7 @@ class Submarine:
         if value > 0:
             self._depth_rating = value
         else:
-            raise ValueError("Depth rating must be positive")
+            raise ValueError("Глубина не может быть отрицательна!")
     
     @property
     def ballast_type(self):
@@ -26,10 +26,10 @@ class Submarine:
         self._ballast_type = value
     
     def submerge(self):
-        return f"Submarine submerging to {self._depth_rating} meters using {self._ballast_type} ballast"
+        return f"Субмарина погружается на {self._depth_rating} метров, используя {self._ballast_type}"
     
     def navigate_underwater(self):
-        return "Navigating underwater with sonar and periscope"
+        return "Навигация под водой, ипользуя гидролокатор и перископ"
 
 
 class Hovercraft:
@@ -58,7 +58,7 @@ class Hovercraft:
         if value > 0:
             self._engine_power = value
         else:
-            raise ValueError("Engine power must be positive")
+            raise ValueError("Мощность двигателя не может быть отрицательной!")
     
     @property
     def terrain_type(self):
@@ -69,13 +69,13 @@ class Hovercraft:
         self._terrain_type = value
     
     def inflate_skirt(self):
-        return f"Inflating {self._skirt_material} skirt for {self._terrain_type} terrain"
+        return f"Надувание {self._skirt_material} юбки для {self._terrain_type} местности"
     
     def navigate_underwater(self):
-        return "Hovercraft cannot navigate underwater - deflating skirt!"
+        return "Судно на воздушной подушке не может двигаться под водой - сдуйте юбку!"
     
     def deflate(self):
-        return "Deflating skirt and preparing for land travel"
+        return "Сдувание юбки и подготовка к путешествию по суше"
 
 
 class AmphibiousVehicle:
@@ -105,7 +105,7 @@ class AmphibiousVehicle:
         if value >= 0:
             self._propeller_count = value
         else:
-            raise ValueError("Propeller count cannot be negative")
+            raise ValueError("Количество пропеллеров не может быть отрицательным!")
     
     @property
     def land_speed(self):
@@ -116,7 +116,7 @@ class AmphibiousVehicle:
         if value >= 0:
             self._land_speed = value
         else:
-            raise ValueError("Speed cannot be negative")
+            raise ValueError("Скорость не может быть отрицательна!")
     
     @property
     def water_speed(self):
@@ -127,10 +127,10 @@ class AmphibiousVehicle:
         if value >= 0:
             self._water_speed = value
         else:
-            raise ValueError("Speed cannot be negative")
+            raise ValueError("Скорость не может быть отрицательна!")
     
     def switch_mode(self):
-        return f"Switching mode: {self._wheel_type} wheels for land, {self._propeller_count} propellers for water"
+        return f"Переключение режима передвижения..."
 
 
 class AmphibiousCraft(Submarine, Hovercraft, AmphibiousVehicle):

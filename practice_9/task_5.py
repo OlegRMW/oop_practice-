@@ -1,5 +1,4 @@
 class Vehicle:
-    """Базовый класс для всех транспортных средств"""
     def __init__(self, name="Amphibious Craft", **kwargs):
         print("Start Vehicle.__init__")
         super().__init__(**kwargs)         # чтобы вызывался следующий по цепочке наследования конструктор

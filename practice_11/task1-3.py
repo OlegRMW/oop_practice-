@@ -1,7 +1,12 @@
+from hull_seal import HullSeal
+from sonar_system import SonarSystem
+
 class Submarine:
     def __init__(self, depth_rating=500, ballast_type="water"):
         self._depth_rating = depth_rating
         self._ballast_type = ballast_type
+        self.mass = 1000   
+        self.power = 5000  
     
     @property
     def depth_rating(self):
@@ -12,7 +17,7 @@ class Submarine:
         if value > 0:
             self._depth_rating = value
         else:
-            raise ValueError("Глубина не может быть отрицательна!")
+            raise ValueError("Depth rating must be positive")
     
     @property
     def ballast_type(self):
@@ -29,11 +34,14 @@ class Submarine:
         return "Навигация под водой, ипользуя гидролокатор и перископ"
 
 
-class Hovercraft:
+class Hovercraft(Submarine):
     def __init__(self, skirt_material="rubber", engine_power=1000, terrain_type="mixed"):
+        super().__init__() 
         self._skirt_material = skirt_material
         self._engine_power = engine_power
         self._terrain_type = terrain_type
+        self.mass = 10     
+        self.power = 1000  
     
     @property
     def skirt_material(self):
@@ -66,19 +74,22 @@ class Hovercraft:
         return f"Надувание {self._skirt_material} юбки для {self._terrain_type} местности"
     
     def navigate_underwater(self):
-        return "Судно на воздушной подушке не может двигаться под водой!"
+        return "Судно на воздушной подушке не может двигаться под водой - сдуйте юбку!"
     
     def deflate(self):
         return "Сдувание юбки и подготовка к путешествию по суше"
 
-
-class AmphibiousVehicle:
+class AmphibiousVehicle(Submarine, HullSeal):
     def __init__(self, wheel_type="all-terrain", propeller_count=2, land_speed=80, water_speed=20):
+        super().__init__()  
+        HullSeal.__init__(self)  
         self._wheel_type = wheel_type
         self._propeller_count = propeller_count
         self._land_speed = land_speed
         self._water_speed = water_speed
-    
+        self.mass = 5      
+        self.power = 300   
+            
     @property
     def wheel_type(self):
         return self._wheel_type
@@ -121,69 +132,79 @@ class AmphibiousVehicle:
             raise ValueError("Скорость не может быть отрицательна!")
     
     def switch_mode(self):
-        return f"Переключение режима передвижения..."
+        print("Режим переключён: вода → суша")
+
+class AmphibiousAcceleration:
+
+    ETA_LAND = 0.80
+    ETA_WATER = 0.70
+
+    K_LAND_SEGMENTS = [
+        (0, 10, 0.22),
+        (10, 20, 0.30),
+        (20, 30, 0.38),
+        (30, 40, 0.46),
+        (40, 50, 0.54),
+    ]
+
+    K_WATER = 0.18
+
+    def _segment_time(self, dv, k, eta):
+        m = self.mass * 1000        
+        P = self.power * 735         
+        return k * dv * m / (P * eta)
+
+    def accel_land(self):
+        total = 0
+        for v1, v2, k in self.K_LAND_SEGMENTS:
+            dv = v2 - v1
+            total += self._segment_time(dv, k, self.ETA_LAND)
+        return total
+
+    def accel_water(self):
+        return self._segment_time(30, self.K_WATER, self.ETA_WATER)
 
 
-class AmphibiousCraft(Submarine, Hovercraft, AmphibiousVehicle):
-    def __init__(self, depth_rating=300, ballast_type="water", 
+class AmphibiousCraft(AmphibiousAcceleration, SonarSystem, Hovercraft, AmphibiousVehicle):
+
+    def __init__(self, depth_rating=300, ballast_type="water",
                  skirt_material="neoprene", engine_power=1500, terrain_type="amphibious",
-                 wheel_type="amphibious", propeller_count=4, land_speed=60, water_speed=25):
+                 wheel_type="all-terrain", propeller_count=4, land_speed=60, water_speed=25):
 
-        Submarine.__init__(self, depth_rating, ballast_type)
         Hovercraft.__init__(self, skirt_material, engine_power, terrain_type)
         AmphibiousVehicle.__init__(self, wheel_type, propeller_count, land_speed, water_speed)
-    
-    def traverse(self):
+        SonarSystem.__init__(self)  
+
+        self._depth_rating = depth_rating
+        self._ballast_type = ballast_type
+        
+        self.mass = 1000 + 10 + 5  
+        self.power = 5000 + 1000 + 300  
+
+    def run(self):
         actions = []
+
+        actions.append(self.seal_hull())
+        actions.append(self.check_pressure())
+        actions.append(self.unseal_hull())
+
+        actions.append(self.scan_area())
+        actions.append(self.detect_object())
+        actions.append(self.map_seabed())
+
         actions.append(self.submerge())
         actions.append(self.inflate_skirt())
         actions.append(self.switch_mode())
         actions.append(self.navigate_underwater())
+
+        actions.append(
+            f"Depth rating: {self.depth_rating} m, "
+            f"Skirt material: {self.skirt_material}, "
+            f"Wheel type: {self.wheel_type}"
+        )
+
         return actions
-    
-    def get_status(self):
-        return {
-            'depth_rating': self.depth_rating,
-            'ballast_type': self.ballast_type,
-            'skirt_material': self.skirt_material,
-            'engine_power': self.engine_power,
-            'terrain_type': self.terrain_type,
-            'wheel_type': self.wheel_type,
-            'propeller_count': self.propeller_count,
-            'land_speed': self.land_speed,
-            'water_speed': self.water_speed
-        }
 
-
-if __name__ == "__main__":
-    
-    craft = AmphibiousCraft()
-    
-    print("=== АМФИБИЙНЫЙ ТРАНСПОРТ ===")
-    print("\nТекущее состояние:")
-    status = craft.get_status()
-    for key, value in status.items():
-        print(f"{key}: {value}")
-    
-    print("\n=== ТЕСТИРОВАНИЕ МЕТОДОВ ===")
-    
-    print("\n1. Погружение:", craft.submerge())
-    print("2. Надувание юбки:", craft.inflate_skirt())
-    print("3. Переключение режима:", craft.switch_mode())
-    print("4. Подводная навигация:", craft.navigate_underwater())
-    print("5. Сдувание юбки:", craft.deflate())
-    
-    print("\n=== ПОЛНАЯ ПОСЛЕДОВАТЕЛЬНОСТЬ TRAVERSE ===")
-    actions = craft.traverse()
-    for i, action in enumerate(actions, 1):
-        print(f"{i}. {action}")
-    
-    print("\n=== ИЗМЕНЕНИЕ СВОЙСТВ ===")
-
-    craft.depth_rating = 400
-    craft.engine_power = 2000
-    craft.land_speed = 70
-    
-    print(f"Новый рейтинг глубины: {craft.depth_rating}")
-    print(f"Новая мощность двигателя: {craft.engine_power}")
-    print(f"Новая скорость по земле: {craft.land_speed}")
+craft = AmphibiousCraft()
+print(craft.accel_land())
+print(craft.accel_water())
